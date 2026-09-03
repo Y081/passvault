@@ -1,0 +1,12 @@
+{
+  "name": "passvault-docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "marked": "^16.0.0"
+  }
+}

@@ -1,0 +1,37 @@
+# —— 内部运维与密钥(严禁入库) ——
+/deploy/
+CLAUDE.md
+.claude
+.codex
+
+# —— 暂不开源的后端与管理台 ——
+sz-boot-parent/
+sz-admin/
+/**/target/
+
+# —— 独立仓库:https://github.com/Y081/passvault-crypto ——
+crypto-core/
+
+# —— 依赖与构建产物 ——
+node_modules/
+dist/
+unpackage/
+.output/
+.wxt/
+.env
+*.local
+logs/
+data/
+**/.flattened-pom.xml
+package-lock.json
+
+# —— 大体积素材(非文档构建必需,不进仓库) ——
+image/启动页.png
+image/密小本图标设计-暗黑.png
+
+# —— 编辑器/系统 ——
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+.hbuilderx/

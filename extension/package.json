@@ -1,0 +1,22 @@
+{
+  "name": "passvault-extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "zip": "wxt zip",
+    "e2e": "node e2e.mjs"
+  },
+  "dependencies": {
+    "passvault-crypto": "github:Y081/passvault-crypto#main",
+    "tweetnacl-util": "^0.15.1",
+    "vue": "^3.5.42"
+  },
+  "devDependencies": {
+    "@wxt-dev/module-vue": "^1.0.3",
+    "puppeteer-core": "^24.43.1",
+    "wxt": "^0.21.4"
+  }
+}
