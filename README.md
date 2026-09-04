@@ -5,7 +5,8 @@
 > 一个零知识(Zero-Knowledge)架构的密码管理系统：主密码永不上传，加解密全部发生在用户设备本地，服务端从架构上就无法窥视任何一条密码——数据库被整体拖走、运维人员主动翻库，没有用户的主密码谁也还原不出一条明文。
 
 - 线上体验(H5)：<https://m.colin-web4.cn>
-- 用户文档：<https://m.colin-web4.cn/downloads/user-guide.html>
+- 用户文档：<https://m.colin-web4.cn/docs/user-guide.html>
+- 隐私政策：<https://m.colin-web4.cn/docs/privacy-policy.html>
 - 加密核心库：[passvault-crypto](https://github.com/Y081/passvault-crypto)(MIT，可独立审计与引用)
 
 ## 功能特性
