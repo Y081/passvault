@@ -20,7 +20,14 @@ async function handle(msg: any) {
     if (!(await getToken())) return { auth: false };
     const [dek, keyInfo] = [await getDek(), await getKeyInfo()];
     if (!dek || !keyInfo) return { locked: true };
-    const rows = await api.listItems();
+    let rows;
+    try {
+      rows = await api.listItems();
+    } catch (e: any) {
+      // token 过期等鉴权失败：让浮层提示去登录，而不是"加载失败"
+      if (e && e.auth) return { auth: false };
+      throw e;
+    }
     const items = [];
     for (const row of rows) {
       const data = decryptItem(row.ciphertext, row.nonce, dek);

@@ -9,6 +9,9 @@ export default defineContentScript({
   matches: ['http://*/*', 'https://*/*'],
   runAt: 'document_idle',
   main() {
+    // 自家 H5 有自己的锁定/解锁流程，不需要填充图标
+    if (location.host === 'm.colin-web4.cn') return;
+
     const TRIGGER_SIZE = 26;
     const triggers = new Map<HTMLInputElement, HTMLElement>();
     let panelHost: HTMLElement | null = null;
