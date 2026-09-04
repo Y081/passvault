@@ -4,6 +4,7 @@
       <input v-model="keyword" placeholder="搜索" />
       <view class="tool" @click="doLock">🔒</view>
       <view class="tool" @click="goSettings">⚙️</view>
+      <view class="tool-add" @click="goAdd">＋</view>
     </view>
     <view v-for="it in filtered" :key="it.id" class="item-card" @click="goDetail(it.id)">
       <view class="avatar" :style="{ background: it.color }">{{ it.initial }}</view>
@@ -19,7 +20,6 @@
       <view class="empty-btn">添加第一个密码</view>
     </view>
     <view v-else-if="!filtered.length" class="empty empty-text">没有匹配的密码</view>
-    <view v-if="items.length" class="fab" @click="goAdd">+</view>
   </view>
 </template>
 
@@ -97,10 +97,11 @@ function goSettings() {
   uni.navigateTo({ url: '/pages/settings/settings' });
 }
 
+// 列表卡片右侧「复制」= 复制密码；FAB 已移除，此按钮不再有遮挡问题
 function copyPw(it) {
   uni.setClipboardData({
     data: it.data.password || '',
-    success: () => uni.showToast({ title: '已复制', icon: 'success' }),
+    success: () => uni.showToast({ title: '已复制密码', icon: 'success' }),
   });
 }
 
@@ -113,7 +114,7 @@ function doLock() {
 
 <style scoped>
 .page {
-  padding-bottom: 160rpx;
+  padding-bottom: 40rpx;
 }
 .search-bar {
   display: flex;
@@ -129,7 +130,19 @@ function doLock() {
 }
 .tool {
   font-size: 40rpx;
-  padding: 10rpx 12rpx;
+  padding: 8rpx 10rpx;
+}
+.tool-add {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  background: #4a6cf7;
+  color: #fff;
+  font-size: 40rpx;
+  text-align: center;
+  line-height: 60rpx;
+  margin-left: 8rpx;
+  box-shadow: 0 4rpx 12rpx rgba(74, 108, 247, 0.35);
 }
 .item-card {
   display: flex;
@@ -166,11 +179,6 @@ function doLock() {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.copy {
-  color: #4a6cf7;
-  padding: 8rpx 0 8rpx 20rpx;
-  flex-shrink: 0;
-}
 .empty {
   display: flex;
   flex-direction: column;
@@ -198,19 +206,5 @@ function doLock() {
   font-size: 28rpx;
   padding: 16rpx 44rpx;
   border-radius: 40rpx;
-}
-.fab {
-  position: fixed;
-  right: 40rpx;
-  bottom: 80rpx;
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 50%;
-  background: #4a6cf7;
-  color: #fff;
-  font-size: 56rpx;
-  text-align: center;
-  line-height: 92rpx;
-  box-shadow: 0 8rpx 24rpx rgba(74, 108, 247, 0.4);
 }
 </style>
