@@ -15,7 +15,7 @@ export default defineBackground(() => {
   });
 });
 
-async function handle(msg: any) {
+async function handleMessage(msg: any) {
   if (msg.type === 'PV_LIST') {
     if (!(await getToken())) return { auth: false };
     const [dek, keyInfo] = [await getDek(), await getKeyInfo()];
