@@ -54,12 +54,10 @@
                 }
             },
             "splashscreen" : {
-                "androidStyle" : "default",
-                "android" : {
-                    "hdpi" : "E:/ai/passvault/image/启动页.png",
-                    "xhdpi" : "E:/ai/passvault/image/启动页.png",
-                    "xxhdpi" : "E:/ai/passvault/image/启动页.png"
-                }
+                "alwaysShowBeforeRender" : true,
+                "autoclose" : true,
+                "waiting" : false,
+                "androidStyle" : "default"
             },
             "android" : {
                 "permissions" : [

@@ -1,5 +1,6 @@
 {
   "pages": [
+    { "path": "pages/splash/splash", "style": { "navigationBarTitleText": "密小本", "navigationStyle": "custom" } },
     { "path": "pages/index/index", "style": { "navigationBarTitleText": "我的密码库", "enablePullDownRefresh": true } },
     { "path": "pages/detail/detail", "style": { "navigationBarTitleText": "密码详情" } },
     { "path": "pages/login/login", "style": { "navigationBarTitleText": "登录" } },
