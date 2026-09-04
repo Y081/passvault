@@ -1,20 +1,25 @@
 <template>
-  <view class="search-bar">
-    <input v-model="keyword" placeholder="搜索" />
-  </view>
-  <view v-for="it in filtered" :key="it.id" class="item-card" @click="goDetail(it.id)">
-    <view class="avatar" :style="{ background: it.color }">{{ it.initial }}</view>
-    <view class="item-main">
-      <view class="item-title">{{ it.data.title || '（无标题）' }}</view>
-      <view class="item-sub">{{ it.data.username }}</view>
+  <view class="page">
+    <view class="search-bar">
+      <input v-model="keyword" placeholder="搜索" />
+      <view class="tool" @click="doLock">🔒</view>
+      <view class="tool" @click="goSettings">⚙️</view>
     </view>
-    <view class="copy" @click.stop="copyPw(it)">复制</view>
-  </view>
-  <view v-if="!filtered.length" class="empty">暂无密码，点击右下角 + 添加</view>
-  <view class="fab" @click="goAdd">+</view>
-  <view class="lock-row">
-    <view class="lock-link" @click="doLock">🔒 锁定</view>
-    <view class="lock-link" @click="goSettings">设置</view>
+    <view v-for="it in filtered" :key="it.id" class="item-card" @click="goDetail(it.id)">
+      <view class="avatar" :style="{ background: it.color }">{{ it.initial }}</view>
+      <view class="item-main">
+        <view class="item-title">{{ it.data.title || '（无标题）' }}</view>
+        <view class="item-sub">{{ it.data.username }}</view>
+      </view>
+      <view class="copy" @click.stop="copyPw(it)">复制</view>
+    </view>
+    <view v-if="!items.length" class="empty" @click="goAdd">
+      <view class="empty-icon">＋</view>
+      <view class="empty-text">还没有密码</view>
+      <view class="empty-btn">添加第一个密码</view>
+    </view>
+    <view v-else-if="!filtered.length" class="empty empty-text">没有匹配的密码</view>
+    <view v-if="items.length" class="fab" @click="goAdd">+</view>
   </view>
 </template>
 
@@ -107,13 +112,24 @@ function doLock() {
 </script>
 
 <style scoped>
+.page {
+  padding-bottom: 160rpx;
+}
 .search-bar {
+  display: flex;
+  align-items: center;
   padding: 16rpx 24rpx;
 }
 .search-bar input {
+  flex: 1;
   background: #fff;
   border-radius: 16rpx;
   padding: 16rpx 24rpx;
+  margin-right: 8rpx;
+}
+.tool {
+  font-size: 40rpx;
+  padding: 10rpx 12rpx;
 }
 .item-card {
   display: flex;
@@ -156,9 +172,32 @@ function doLock() {
   flex-shrink: 0;
 }
 .empty {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 140rpx 0;
   color: #bbb;
-  padding: 120rpx 0;
+}
+.empty-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: #fff;
+  color: #4a6cf7;
+  font-size: 60rpx;
+  line-height: 116rpx;
+  box-shadow: 0 8rpx 24rpx rgba(74, 108, 247, 0.15);
+}
+.empty-text {
+  margin-top: 20rpx;
+}
+.empty-btn {
+  margin-top: 28rpx;
+  background: #4a6cf7;
+  color: #fff;
+  font-size: 28rpx;
+  padding: 16rpx 44rpx;
+  border-radius: 40rpx;
 }
 .fab {
   position: fixed;
@@ -173,13 +212,5 @@ function doLock() {
   text-align: center;
   line-height: 92rpx;
   box-shadow: 0 8rpx 24rpx rgba(74, 108, 247, 0.4);
-}
-.lock-row {
-  display: flex;
-  justify-content: center;
-}
-.lock-link {
-  color: #999;
-  padding: 32rpx;
 }
 </style>
