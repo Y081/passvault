@@ -3,7 +3,8 @@
     <input v-model="form.title" placeholder="标题（如：QQ邮箱）" />
     <input v-model="form.username" placeholder="账号" />
     <view class="pw-row">
-      <input v-model="form.password" password placeholder="密码" />
+      <input v-model="form.password" :password="!showPw" placeholder="密码" />
+      <view class="gen" @click="showPw = !showPw">{{ showPw ? '🙈' : '👁' }}</view>
       <view class="gen" @click="gen">🎲</view>
     </view>
     <input v-model="form.url" placeholder="网址（选填）" />
@@ -25,6 +26,7 @@ import { generatePassword } from '../../utils/generator';
 const id = ref(null);
 const form = ref({ title: '', username: '', password: '', url: '', note: '' });
 const busy = ref(false);
+const showPw = ref(false);
 
 onLoad(async (query) => {
   if (query.id) {
@@ -41,6 +43,7 @@ onLoad(async (query) => {
 
 async function gen() {
   form.value.password = await generatePassword(16);
+  showPw.value = true; // 生成后切明文，让用户看到并确认生成的密码
   uni.showToast({ title: '已生成随机密码', icon: 'none' });
 }
 
