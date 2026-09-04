@@ -2,7 +2,7 @@
     "name" : "密小本",
     "appid" : "__UNI__19DB667",
     "description" : "密小本・把密码锁进只有你能翻开的小本本",
-    "versionName" : "0.1.0",
+    "versionName" : "0.2.0",
     "versionCode" : "2",
     "vueVersion" : "3",
     "mp-weixin" : {
