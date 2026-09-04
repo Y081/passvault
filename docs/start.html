@@ -17,7 +17,6 @@
   .brand img { width: 58px; height: 58px; border-radius: 14px; }
   .brand .name { font-size: 30px; font-weight: 700; color: #222; }
   .brand .name span { font-size: 15px; color: #999; font-weight: 400; margin-left: 8px; }
-  .slogan { text-align: center; color: #777; font-size: 15px; padding-bottom: 10px; }
   .cta {
     max-width: 560px; margin: 26px auto 8px; padding: 24px 22px 18px;
     background: #fff; border-radius: 16px; box-shadow: 0 10px 34px rgba(74,108,247,.10);
@@ -38,7 +37,6 @@
   .btn.ghost:hover { background: #f5f7ff; }
   .guide { text-align: center; margin-top: 14px; font-size: 14px; }
   .guide a { color: #4a6cf7; text-decoration: none; }
-  .note { max-width: 560px; margin: 16px auto 0; text-align: center; color: #999; font-size: 13px; }
   footer { text-align: center; color: #bbb; font-size: 13px; padding: 30px 0 40px; }
   footer a { color: #4a6cf7; text-decoration: none; }
   @media (max-width: 420px) { .btns { gap: 10px; } }
@@ -51,7 +49,10 @@
   <img src="/static/logo.png" alt="密小本" />
   <div class="name">密小本<span>PassVault</span></div>
 </div>
-<div class="slogan">零知识加密 —— 主密码不上传，数据加密后仅你可读</div>
+<div class="brand">
+  <img src="/static/logo.png" alt="密小本" />
+  <div class="name">密小本<span>PassVault</span></div>
+</div>
 
 <style>
 :root{color-scheme:light;--surface:#F7F7F8;--surface-muted:#EFEFF2;--text:#171717;--text-muted:#52525B;--border:rgba(23,23,23,0.12);--brand:#4B3FE3;--brand-soft:#F2F7FF;--brand-soft-strong:#E5EAFF;--brand-text:#1A1759;--brand-on:#FFFFFF;--radius:8px;--radius-card:12px;--radius-full:999px;--spacer-4:4px;--spacer-8:8px;--spacer-12:12px;--spacer-16:16px;--spacer-20:20px;--spacer-24:24px;--font-sans:"SF Pro Text","PingFang SC",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;--weight-regular:400;--weight-medium:500;--weight-strong:600;--text-caption:12px/18px;--text-body:14px/20px;--text-title:16px/24px;}
@@ -171,8 +172,6 @@
   </div>
   <div class="guide">首次使用建议先阅读 <a href="/docs/user-guide.html">使用指南</a> · 主密码一旦忘记无法找回，请牢记</div>
 </div>
-<div class="note">数据在你设备上加密后才会同步，服务器只存密文 · 详见<a href="/docs/privacy-policy.html" style="color:#4a6cf7">隐私政策</a></div>
-
 <footer>密小本 PassVault · <a href="/docs/user-guide.html">使用指南</a> · <a href="/docs/privacy-policy.html">隐私政策</a></footer>
 
 <script>
