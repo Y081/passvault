@@ -68,6 +68,10 @@ onBackPress(() => {
 
 async function submit() {
   try {
+    // onShow 的兜底可能还没返回（弱网），提交前再保证一次 keyInfo 就位
+    if (!getKeyInfo()) {
+      setKeyInfo(await api.getKey());
+    }
     if (unlockWithPassword(password.value)) {
       uni.reLaunch({ url: '/pages/index/index' });
     } else {
