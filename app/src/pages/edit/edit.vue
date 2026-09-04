@@ -2,7 +2,10 @@
   <view class="form-card">
     <input v-model="form.title" placeholder="标题（如：QQ邮箱）" />
     <input v-model="form.username" placeholder="账号" />
-    <input v-model="form.password" password placeholder="密码" />
+    <view class="pw-row">
+      <input v-model="form.password" password placeholder="密码" />
+      <view class="gen" @click="gen">🎲</view>
+    </view>
     <input v-model="form.url" placeholder="网址（选填）" />
     <input v-model="form.note" placeholder="备注（选填）" />
   </view>
@@ -17,6 +20,7 @@ import { decryptItem, encryptItem } from 'passvault-crypto';
 import { api } from '../../api';
 import { getDek } from '../../utils/session';
 import { ensureRandom } from '../../utils/random';
+import { generatePassword } from '../../utils/generator';
 
 const id = ref(null);
 const form = ref({ title: '', username: '', password: '', url: '', note: '' });
@@ -34,6 +38,11 @@ onLoad(async (query) => {
     }
   }
 });
+
+async function gen() {
+  form.value.password = await generatePassword(16);
+  uni.showToast({ title: '已生成随机密码', icon: 'none' });
+}
 
 async function save() {
   if (!form.value.title || !form.value.password) {
@@ -73,6 +82,17 @@ async function del() {
 </script>
 
 <style scoped>
+.pw-row {
+  display: flex;
+  align-items: center;
+}
+.pw-row input {
+  flex: 1;
+}
+.gen {
+  font-size: 36rpx;
+  padding: 12rpx 0 12rpx 20rpx;
+}
 .danger {
   background: #e05252;
 }

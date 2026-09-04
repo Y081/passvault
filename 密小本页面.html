@@ -1,0 +1,141 @@
+<style>
+:root{color-scheme:light;--surface:#F7F7F8;--surface-muted:#EFEFF2;--text:#171717;--text-muted:#52525B;--border:rgba(23,23,23,0.12);--brand:#4B3FE3;--brand-soft:#F2F7FF;--brand-soft-strong:#E5EAFF;--brand-text:#1A1759;--brand-on:#FFFFFF;--radius:8px;--radius-card:12px;--radius-full:999px;--spacer-4:4px;--spacer-8:8px;--spacer-12:12px;--spacer-16:16px;--spacer-20:20px;--spacer-24:24px;--font-sans:"SF Pro Text","PingFang SC",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;--weight-regular:400;--weight-medium:500;--weight-strong:600;--text-caption:12px/18px;--text-body:14px/20px;--text-title:16px/24px;}
+:root[data-widget-theme="dark"]{color-scheme:dark;--surface:#171717;--surface-muted:#262626;--text:#E5E5E5;--text-muted:#A1A1AA;--border:rgba(229,229,229,0.12);--brand:#6054F1;--brand-soft:#1A1759;--brand-soft-strong:#3C2ECA;--brand-text:#CFD8FF;}
+.widget{color:var(--text);background:transparent;font:var(--weight-regular) var(--text-body) var(--font-sans);letter-spacing:0;display:flex;justify-content:center;padding:var(--spacer-16);}
+.phone{width:340px;max-width:100%;background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:var(--spacer-12);box-shadow:0 10px 30px rgba(0,0,0,0.08);}
+.screen{background:var(--surface);border-radius:var(--radius-card);overflow:hidden;display:flex;flex-direction:column;min-height:590px;}
+.statusbar{display:flex;justify-content:space-between;align-items:center;padding:var(--spacer-8) var(--spacer-16) 0;color:var(--text);font:var(--weight-medium) var(--text-caption) var(--font-sans);}
+.statusbar .icons{display:flex;gap:var(--spacer-8);color:var(--text-muted);}
+.pager{flex:1;position:relative;overflow:hidden;}
+.page{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:var(--spacer-8) var(--spacer-24) var(--spacer-16);opacity:0;visibility:hidden;transition:opacity .12s ease;}
+.page.on{opacity:1;visibility:visible;}
+.illu{position:relative;width:250px;height:200px;margin-bottom:var(--spacer-12);}
+.title{font:var(--weight-strong) var(--text-title) var(--font-sans);color:var(--text);}
+.desc{font:var(--weight-regular) var(--text-body) var(--font-sans);color:var(--text-muted);margin-top:var(--spacer-8);max-width:230px;}
+/* page 1 vault */
+.arc{position:absolute;top:0;left:25px;width:200px;height:56px;}
+.vault{position:absolute;left:42px;top:58px;width:166px;height:118px;background:var(--surface);border:2px solid var(--brand);border-radius:20px;display:flex;align-items:center;justify-content:center;gap:var(--spacer-16);box-shadow:0 10px 22px rgba(75,63,227,0.16);}
+.dial{width:62px;height:62px;border-radius:var(--radius-full);border:5px solid var(--brand);display:flex;align-items:center;justify-content:center;flex:none;}
+.dial .core{width:14px;height:14px;border-radius:var(--radius-full);background:var(--brand);}
+.slot{display:flex;flex-direction:column;gap:var(--spacer-8);}
+.slot .bar{width:44px;height:8px;border-radius:var(--radius-full);background:var(--brand-soft-strong);}
+.slot .bar.short{width:30px;}
+.spark{position:absolute;width:40px;height:40px;border-radius:var(--radius-full);background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center;}
+.spark svg{width:18px;height:18px;}
+.spark.a{left:10px;top:92px;}
+.spark.b{right:6px;top:70px;}
+/* page 2 autofill */
+.form{position:absolute;left:34px;top:64px;width:182px;height:106px;background:var(--surface);border:2px solid var(--brand);border-radius:var(--radius-card);padding:var(--spacer-12);display:flex;flex-direction:column;gap:var(--spacer-8);box-shadow:0 10px 22px rgba(75,63,227,0.16);}
+.inrow{display:flex;align-items:center;gap:var(--spacer-8);background:var(--surface-muted);border-radius:var(--radius);padding:var(--spacer-8) var(--spacer-12);}
+.inrow .lh{width:18px;height:18px;border-radius:var(--radius);background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center;flex:none;}
+.inrow .lh svg{width:11px;height:11px;}
+.inrow .txt{flex:1;height:8px;border-radius:var(--radius-full);background:var(--border);}
+.inrow .ok{width:22px;height:22px;border-radius:var(--radius-full);background:var(--brand);color:var(--brand-on);display:flex;align-items:center;justify-content:center;flex:none;}
+.inrow .ok svg{width:12px;height:12px;}
+.bolt{position:absolute;right:14px;top:30px;width:40px;height:40px;border-radius:var(--radius-full);background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center;}
+.bolt svg{width:20px;height:20px;}
+/* page 3 strong password */
+.gen-lock{position:absolute;left:85px;top:58px;width:80px;height:80px;border-radius:26px;background:var(--brand);color:var(--brand-on);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px rgba(75,63,227,0.4);}
+.gen-lock svg{width:40px;height:40px;}
+.chp{position:absolute;background:var(--brand-soft);color:var(--brand);border:1px solid var(--brand-soft-strong);border-radius:var(--radius);font:var(--weight-strong) var(--text-title) var(--font-mono);padding:var(--spacer-4) var(--spacer-8);}
+.chp.c1{left:30px;top:66px;}
+.chp.c2{right:26px;top:60px;}
+.chp.c3{left:48px;bottom:6px;}
+.chp.c4{right:46px;bottom:10px;}
+.footer{display:flex;align-items:center;justify-content:space-between;padding:var(--spacer-12) var(--spacer-20) var(--spacer-20);}
+.dots{display:flex;gap:var(--spacer-8);}
+.dot{width:8px;height:8px;border-radius:var(--radius-full);background:var(--border);transition:all .12s;}
+.dot.on{width:20px;background:var(--brand);}
+.next{height:44px;padding:0 var(--spacer-20);border-radius:var(--radius-full);background:var(--brand);color:var(--brand-on);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;font:var(--weight-medium) var(--text-body) var(--font-sans);}
+.next.arrow{width:48px;padding:0;}
+.next svg{width:22px;height:22px;}
+</style>
+<div class="widget" data-dynamic-ui-widget data-template="password-onboarding-full">
+  <div class="phone">
+    <div class="screen">
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="icons">
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"></rect><rect x="4" y="5" width="3" height="7" rx="1"></rect><rect x="8" y="2" width="3" height="10" rx="1"></rect><rect x="12" y="0" width="3" height="12" rx="1"></rect></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4a15 15 0 0 1 14 0M3 7.5a11 11 0 0 1 10 0M5.5 10.5a6 6 0 0 1 5 0"></path></svg>
+        </span>
+      </div>
+
+      <div class="pager">
+        <div class="page on" data-i="0">
+          <div class="illu">
+            <svg class="arc" viewBox="0 0 200 56" fill="none" stroke="var(--brand)" stroke-width="3" stroke-linecap="round"><path d="M10 50 C40 16 160 16 190 50"></path></svg>
+            <div class="vault"><div class="dial"><div class="core"></div></div><div class="slot"><div class="bar"></div><div class="bar short"></div></div></div>
+            <div class="spark a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="10" width="14" height="10" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></div>
+            <div class="spark b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="10" width="14" height="10" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></div>
+          </div>
+          <div class="title">给你的密码一个保险柜</div>
+          <div class="desc">本地加密存储，告别记忆负担，一个主密码解锁全部</div>
+        </div>
+
+        <div class="page" data-i="1">
+          <div class="illu">
+            <svg class="arc" viewBox="0 0 200 56" fill="none" stroke="var(--brand)" stroke-width="3" stroke-linecap="round"><path d="M10 50 C40 16 160 16 190 50"></path></svg>
+            <div class="bolt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2 5 13h6l-1 9 8-11h-6l1-9Z"></path></svg></div>
+            <div class="form">
+              <div class="inrow"><span class="lh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"></path></svg></span><span class="txt"></span><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"></path></svg></span></div>
+              <div class="inrow"><span class="lh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="10" width="14" height="10" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></span><span class="txt"></span><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"></path></svg></span></div>
+            </div>
+          </div>
+          <div class="title">一键自动填充</div>
+          <div class="desc">登录网站时，自动填入账号与密码，快人一步</div>
+        </div>
+
+        <div class="page" data-i="2">
+          <div class="illu">
+            <div class="gen-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2.5"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path><circle cx="12" cy="15" r="1.6"></circle><path d="M12 15v2"></path></svg></div>
+            <span class="chp c1">A9</span>
+            <span class="chp c2">#k</span>
+            <span class="chp c3">$2</span>
+            <span class="chp c4">@x</span>
+          </div>
+          <div class="title">生成高强度密码</div>
+          <div class="desc">随机组合大小写、数字与符号，拒绝弱密码风险</div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="dots">
+          <span class="dot on"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+        <button class="next arrow" id="ob-next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var root=document.querySelector('[data-dynamic-ui-widget][data-template="password-onboarding-full"]');
+  if(!root||root.dataset.mounted) return;
+  root.dataset.mounted="true";
+  var pages=Array.prototype.slice.call(root.querySelectorAll('.page'));
+  var dots=Array.prototype.slice.call(root.querySelectorAll('.dot'));
+  var next=root.querySelector('#ob-next');
+  var cur=0;
+  function show(i){
+    if(i<0)i=0; if(i>pages.length-1)i=pages.length-1;
+    cur=i;
+    pages.forEach(function(p,idx){p.classList.toggle('on',idx===i);});
+    dots.forEach(function(d,idx){d.classList.toggle('on',idx===i);});
+    if(cur===pages.length-1){
+      next.classList.remove('arrow');
+      next.textContent='开始使用';
+    }else{
+      next.classList.add('arrow');
+      next.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>';
+    }
+  }
+  next.addEventListener('click',function(){
+    if(cur===pages.length-1){return;}
+    show(cur+1);
+  });
+  dots.forEach(function(d){d.addEventListener('click',function(){show(dots.indexOf(d));});});
+})();
+</script>

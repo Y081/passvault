@@ -44,7 +44,12 @@ const filtered = computed(() => {
 
 onShow(async () => {
   if (!hasToken()) {
-    uni.reLaunch({ url: '/pages/login/login' });
+    // 首次启动先看三页产品引导，之后直达登录页；已登录用户永不弹
+    if (!uni.getStorageSync('pv_onboarded')) {
+      uni.reLaunch({ url: '/pages/onboarding/onboarding' });
+    } else {
+      uni.reLaunch({ url: '/pages/login/login' });
+    }
     return;
   }
   try {

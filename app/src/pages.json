@@ -6,7 +6,8 @@
     { "path": "pages/register/register", "style": { "navigationBarTitleText": "注册" } },
     { "path": "pages/unlock/unlock", "style": { "navigationBarTitleText": "解锁" } },
     { "path": "pages/settings/settings", "style": { "navigationBarTitleText": "设置" } },
-    { "path": "pages/edit/edit", "style": { "navigationBarTitleText": "编辑密码" } }
+    { "path": "pages/edit/edit", "style": { "navigationBarTitleText": "编辑密码" } },
+    { "path": "pages/onboarding/onboarding", "style": { "navigationBarTitleText": "欢迎", "navigationStyle": "custom" } }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
