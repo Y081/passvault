@@ -7,9 +7,12 @@
 <meta name="description" content="零知识加密密码管理：主密码不上传，数据加密后仅你可读。网页、浏览器插件、手机 App 多端同步。">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html {
+    /* 渐变挂 html 并以纯色兜底：文档再长，45% 之后的纯色与渐变终点一致，无断层 */
+    background: #f5f6fa linear-gradient(180deg, #eef1ff 0%, #f5f6fa 45%) no-repeat;
+  }
   body {
     font-family: -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: linear-gradient(180deg, #eef1ff 0%, #f5f6fa 40%, #f5f6fa 100%);
     color: #333; line-height: 1.75; font-size: 16px;
   }
   .topbar { height: 4px; background: linear-gradient(90deg, #4a6cf7, #8b5cf6); }
