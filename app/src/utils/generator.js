@@ -23,15 +23,19 @@ async function secureBytes(n) {
 }
 
 export async function generatePassword(length = 16) {
+  // 一次性取足随机字节：类别保底 4 + 主体 (length-4) + 洗牌 (length-1)，取 length*2+4 覆盖有余
+  const bytes = await secureBytes(length * 2 + SETS.length);
+  let off = 0;
+  const next = (mod) => bytes[off++] % mod;
   const chars = [];
   for (const set of SETS) {
-    chars.push(set[(await secureBytes(1))[0] % set.length]);
+    chars.push(set[next(set.length)]);
   }
   while (chars.length < length) {
-    chars.push(ALL[(await secureBytes(1))[0] % ALL.length]);
+    chars.push(ALL[next(ALL.length)]);
   }
   for (let i = chars.length - 1; i > 0; i--) {
-    const j = (await secureBytes(1))[0] % (i + 1);
+    const j = next(i + 1);
     [chars[i], chars[j]] = [chars[j], chars[i]];
   }
   return chars.join('');
