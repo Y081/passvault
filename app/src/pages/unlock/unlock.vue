@@ -20,8 +20,9 @@
 <script setup>
 import { ref } from 'vue';
 import { onReady, onShow, onBackPress } from '@dcloudio/uni-app';
-import { cacheMasterKey, logout, unlockWithPassword } from '../../utils/session';
+import { cacheMasterKey, getKeyInfo, hasToken, logout, setKeyInfo, unlockWithPassword } from '../../utils/session';
 import * as biometric from '../../utils/biometric';
+import { api } from '../../api';
 import BioPrompt from '../../components/bio-prompt/bio-prompt.vue';
 
 const password = ref('');
@@ -30,16 +31,28 @@ const bioBusy = ref(false);
 const bioOn = ref(false);
 const bioPrompt = ref(null);
 
-// 必须 onReady 而非 onLoad：onLoad 时子组件未挂载，bioPrompt ref 还是 null
-onReady(() => {
-  bioOn.value = biometric.isEnabled();
+// keyInfo 兜底：iOS Safari 切后台会冻结并重载页面，内存态清空后 keyInfo 为 null，
+// 此时解锁会抛错且表现为"没反应"；首页会自愈，本页必须自己补拉
+onShow(async () => {
+  if (!hasToken()) {
+    uni.reLaunch({ url: '/pages/login/login' });
+    return;
+  }
+  try {
+    if (!getKeyInfo()) {
+      setKeyInfo(await api.getKey());
+    }
+  } catch (e) {
+    uni.showToast({ title: e.message, icon: 'none' });
+  }
   if (bioOn.value) {
     bioUnlock();
   }
 });
 
-// 切后台再回前台自动重新弹指纹；验证已在进行时由 bioBusy 拦住
-onShow(() => {
+// 必须 onReady 而非 onLoad：onLoad 时子组件未挂载，bioPrompt ref 还是 null
+onReady(() => {
+  bioOn.value = biometric.isEnabled();
   if (bioOn.value) {
     bioUnlock();
   }
@@ -53,11 +66,16 @@ onBackPress(() => {
   return true;
 });
 
-function submit() {
-  if (unlockWithPassword(password.value)) {
-    uni.reLaunch({ url: '/pages/index/index' });
-  } else {
-    uni.showToast({ title: '主密码错误', icon: 'none' });
+async function submit() {
+  try {
+    if (unlockWithPassword(password.value)) {
+      uni.reLaunch({ url: '/pages/index/index' });
+    } else {
+      uni.showToast({ title: '主密码错误', icon: 'none' });
+    }
+  } catch (e) {
+    // keyInfo 缺失等原因导致的异常必须可见，不允许"点了没反应"
+    uni.showToast({ title: e.message || '解锁失败，请重试', icon: 'none' });
   }
 }
 
