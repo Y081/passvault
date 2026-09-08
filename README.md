@@ -5,6 +5,7 @@
 > 一个零知识(Zero-Knowledge)架构的密码管理系统：主密码永不上传，加解密全部发生在用户设备本地，服务端从架构上就无法窥视任何一条密码——数据库被整体拖走、运维人员主动翻库，没有用户的主密码谁也还原不出一条明文。
 
 - 线上体验(H5)：<https://m.colin-web4.cn>
+- 浏览器扩展(Edge 商店)：<https://microsoftedge.microsoft.com/addons/detail/hhhdpmfoebgckbonheiimpmlgjhmlcph>
 - 用户文档：<https://m.colin-web4.cn/docs/user-guide.html>
 - 隐私政策：<https://m.colin-web4.cn/docs/privacy-policy.html>
 - 加密核心库：[passvault-crypto](https://github.com/Y081/passvault-crypto)(MIT，可独立审计与引用)
@@ -12,7 +13,7 @@
 ## 功能特性
 
 - **零知识加密**：主密码只在设备内存存在，条目在本地加密后上云；服务端仅存密文与密钥包裹体
-- **四端覆盖**：H5 网页 / Android APK(指纹快捷解锁、应用内自动更新)/ 微信小程序 / Chrome 浏览器扩展(MV3)，同一账号数据互通
+- **四端覆盖**：H5 网页 / Android APK(指纹快捷解锁、应用内自动更新)/ 微信小程序 / 浏览器扩展(MV3，已上架 Edge 商店，Chrome 可离线加载)，同一账号数据互通
 - **卡片式密码库**：彩色卡片、关键词搜索、默认打码一键显示、逐字段复制
 - **锁定即安全**：手动锁定或关闭应用后再进入需主密码(或指纹)解锁，密钥只存在于内存
 - **秒换主密码**：改主密码只需重新包裹数据密钥，全部历史数据无需重加密
@@ -52,7 +53,7 @@ masterKey（只在设备内存）
 ```
 passvault/
 ├── app/             # uni-app 用户端（Vue3 + Vite）：H5 / Android APK / 微信小程序
-├── extension/       # Chrome 浏览器扩展（WXT + Vue3，MV3）
+├── extension/       # 浏览器扩展（WXT + Vue3，MV3）
 ├── docs/            # 用户文档源（md → 自包含单文件 HTML）
 └── image/           # 文档/界面截图素材
 ```
@@ -68,7 +69,11 @@ node e2e.mjs                              # 端到端加密回归
 
 需要本地后端(接口契约见用户文档)。
 
-### Chrome 浏览器扩展
+### 浏览器扩展(Chrome / Edge)
+
+**正式安装（推荐）**：从 [Edge 加载项商店](https://microsoftedge.microsoft.com/addons/detail/hhhdpmfoebgckbonheiimpmlgjhmlcph) 一键安装，自动跟随更新；Chrome 用户可从[用户文档页](https://m.colin-web4.cn/docs/user-guide.html)下载 zip 包离线加载。
+
+本地开发构建：
 
 ```bash
 cd extension
@@ -99,7 +104,7 @@ cd docs && npm install && npm run build   # 产物 dist/user-guide.html（自包
 ## 计划 / Roadmap
 
 - rekey（改主密码）客户端 UI
-- 浏览器扩展：页面自动填充（内容脚本）+ 站点匹配、闲置自动锁定
+- 浏览器扩展：闲置自动锁定、保存新密码反向捕获（页面自动填充 v1 已上线）
 - 微信小程序正式发布（需大陆备案域名）
 
 ---
