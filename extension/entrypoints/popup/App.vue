@@ -20,6 +20,10 @@
       <input v-model="username" placeholder="用户名（字母数字下划线，3-32位）" />
       <input v-model="password" type="password" placeholder="主密码（至少8位）" />
       <input v-model="confirm" type="password" placeholder="确认主密码" />
+      <div class="captcha-row">
+        <input v-model="captchaCode" placeholder="验证码（不区分大小写）" />
+        <img class="captcha-img" :src="captchaImg" title="看不清？点击刷新" @click="loadCaptcha" />
+      </div>
       <button class="btn primary" :disabled="busy" @click="submitRegister">注册</button>
       <div v-if="error" class="error">{{ error }}</div>
       <div class="link" @click="state = 'login'">已有账号？登录</div>
@@ -104,6 +108,9 @@ const state = ref('checking');
 const username = ref('');
 const password = ref('');
 const confirm = ref('');
+const captchaId = ref('');
+const captchaCode = ref('');
+const captchaImg = ref('');
 const keyword = ref('');
 const busy = ref(false);
 const error = ref('');
@@ -147,7 +154,15 @@ onMounted(async () => {
 function goRegister() {
   password.value = '';
   error.value = '';
+  loadCaptcha();
   state.value = 'register';
+}
+
+async function loadCaptcha() {
+  const c = await api.captcha();
+  captchaId.value = c.captchaId;
+  captchaImg.value = c.image;
+  captchaCode.value = '';
 }
 
 async function submitRegister() {
@@ -163,13 +178,14 @@ async function submitRegister() {
     const authHash = deriveAuthHash(masterKey, name);
     const dek = generateDek();
     const { wrappedDek, wrapNonce } = wrapDek(dek, masterKey);
-    await api.register({ username: name, authHash, kdfSalt, kdfIters: DEFAULT_ITERATIONS, wrappedDek, wrapNonce });
+    await api.register({ username: name, authHash, kdfSalt, kdfIters: DEFAULT_ITERATIONS, wrappedDek, wrapNonce, captchaId: captchaId.value, captchaCode: captchaCode.value });
     password.value = '';
     confirm.value = '';
     state.value = 'login';
     showToast('注册成功，请登录');
   } catch (e) {
     showError(e.message);
+    loadCaptcha();
   } finally {
     busy.value = false;
   }
@@ -375,6 +391,25 @@ input {
 }
 input:focus {
   border-color: #4a6cf7;
+}
+.captcha-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.captcha-row input {
+  flex: 1;
+  min-width: 0;
+}
+.captcha-img {
+  width: 108px;
+  height: 40px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 .btn {
   width: 100%;

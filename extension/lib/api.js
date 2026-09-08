@@ -27,6 +27,7 @@ async function request(method, path, data) {
 
 export const api = {
   kdf: (username) => request('GET', '/admin/passvault/kdf?username=' + encodeURIComponent(username)),
+  captcha: () => request('GET', '/admin/passvault/captcha'),
   register: (data) => request('POST', '/admin/passvault/register', data),
   login: (data) => request('POST', '/admin/passvault/login', data),
   getKey: () => request('GET', '/admin/passvault/key'),

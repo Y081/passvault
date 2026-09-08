@@ -13,6 +13,10 @@
         <input v-model="confirm" :password="!showPwd2" placeholder="确认主密码" />
         <view class="eye-btn" :class="{ on: showPwd2 }" @click="showPwd2 = !showPwd2" />
       </view>
+      <view class="captcha-row">
+        <input v-model="captchaCode" placeholder="验证码" />
+        <image class="captcha-img" :src="captchaImg" mode="aspectFit" @click="loadCaptcha" />
+      </view>
       <view class="tip">忘记主密码将无法找回任何数据！</view>
       <button class="auth-btn" :loading="busy" @click="submit">注册</button>
       <view class="link" @click="goBack">已有账号？登录</view>
@@ -21,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import {
   DEFAULT_ITERATIONS,
   deriveAuthHash,
@@ -39,10 +43,21 @@ const confirm = ref('');
 const showPwd1 = ref(false);
 const showPwd2 = ref(false);
 const busy = ref(false);
+const captchaId = ref('');
+const captchaCode = ref('');
+const captchaImg = ref('');
 
 function goBack() {
   uni.navigateBack();
 }
+
+async function loadCaptcha() {
+  const c = await api.captcha();
+  captchaId.value = c.captchaId;
+  captchaImg.value = c.image;
+  captchaCode.value = '';
+}
+onMounted(loadCaptcha);
 
 async function submit() {
   const name = username.value.trim();
@@ -66,11 +81,12 @@ async function submit() {
     const authHash = deriveAuthHash(masterKey, name);
     const dek = generateDek();
     const { wrappedDek, wrapNonce } = wrapDek(dek, masterKey);
-    await api.register({ username: name, authHash, kdfSalt, kdfIters: DEFAULT_ITERATIONS, wrappedDek, wrapNonce });
+    await api.register({ username: name, authHash, kdfSalt, kdfIters: DEFAULT_ITERATIONS, wrappedDek, wrapNonce, captchaId: captchaId.value, captchaCode: captchaCode.value });
     uni.showToast({ title: '注册成功', icon: 'success' });
     setTimeout(() => uni.redirectTo({ url: '/pages/login/login' }), 600);
   } catch (e) {
     uni.showToast({ title: e.message, icon: 'none' });
+    loadCaptcha();
   } finally {
     busy.value = false;
   }
@@ -82,5 +98,35 @@ async function submit() {
   color: #e05252;
   font-size: 24rpx;
   padding: 0 40rpx;
+}
+
+.captcha-row {
+  display: flex;
+  align-items: center;
+  padding: 0 40rpx;
+  gap: 20rpx;
+}
+
+.captcha-row input {
+  flex: 1;
+  min-width: 0;
+  height: 80rpx;
+  padding: 0 24rpx;
+  margin-bottom: 0;
+  border: 1rpx solid #d0d4e0;
+  border-radius: 12rpx;
+}
+
+.captcha-row input:focus {
+  border-color: #4a6cf7;
+}
+
+.captcha-img {
+  flex-shrink: 0;
+  width: 224rpx;
+  height: 80rpx;
+  border: 1rpx solid #d0d4e0;
+  border-radius: 12rpx;
+  background: #ffffff;
 }
 </style>
